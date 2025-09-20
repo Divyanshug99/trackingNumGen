@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-slim as builder
+FROM azul/zulu-openjdk:21-jdk AS builder
 WORKDIR /app
 COPY gradlew .
 COPY gradle gradle
@@ -7,7 +7,7 @@ COPY src src
 RUN chmod +x gradlew
 RUN ./gradlew bootJar -x test
 
-FROM openjdk:17-jre-slim
+FROM azul/zulu-openjdk:21-jdk
 WORKDIR /app
 COPY --from=builder /app/build/libs/*.jar app.jar
 EXPOSE 8080
